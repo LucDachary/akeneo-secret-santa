@@ -1,0 +1,98 @@
+- model: secret_santa.pair
+  pk: 1
+  fields:
+      draw: 1
+      donor: Paul
+      beneficiary: Mia
+
+- model: secret_santa.pair
+  pk: 2
+  fields:
+      draw: 1
+      donor: Mia
+      beneficiary: Elodie
+
+- model: secret_santa.pair
+  pk: 3
+  fields:
+      draw: 1
+      donor: Elodie
+      beneficiary: Elena
+
+- model: secret_santa.pair
+  pk: 4
+  fields:
+      draw: 1
+      donor: Elena
+      beneficiary: Alexis
+
+- model: secret_santa.pair
+  pk: 5
+  fields:
+      draw: 1
+      donor: Alexis
+      beneficiary: Cléo
+
+- model: secret_santa.pair
+  pk: 6
+  fields:
+      draw: 1
+      donor: Cléo
+      beneficiary: Matthieu
+
+- model: secret_santa.pair
+  pk: 7
+  fields:
+      draw: 1
+      donor: Matthieu
+      beneficiary: Batiste
+
+- model: secret_santa.pair
+  pk: 8
+  fields:
+      draw: 1
+      donor: Batiste
+      beneficiary: Nelly
+
+- model: secret_santa.pair
+  pk: 9
+  fields:
+      draw: 1
+      donor: Nelly
+      beneficiary: Maïté
+
+- model: secret_santa.pair
+  pk: 10
+  fields:
+      draw: 1
+      donor: Maïté
+      beneficiary: Laurent
+
+- model: secret_santa.pair
+  pk: 11
+  fields:
+      draw: 1
+      donor: Laurent
+      beneficiary: Yann
+
+- model: secret_santa.pair
+  pk: 12
+  fields:
+      draw: 1
+      donor: Yann
+      beneficiary: Mickaël
+
+- model: secret_santa.pair
+  pk: 13
+  fields:
+      draw: 1
+      donor: Mickaël
+      beneficiary: Luc
+
+- model: secret_santa.pair
+  pk: 14
+  fields:
+      draw: 1
+      donor: Luc
+      beneficiary: Paul
+

@@ -1,0 +1,9 @@
+<h1>Secret Santa</h1>
+<h2>Draw History</h2>
+<ul>
+    {% for draw in object_list %}
+    <li>{{ draw.drawn_on | date }} — {{ draw.id }}</li>
+    {% empty %}
+    <li>(No draws yet.)</li>
+    {% endfor %}
+</ul>

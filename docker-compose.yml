@@ -1,0 +1,38 @@
+services:
+  webapp:
+    image: akeneo/webapp
+    build: .
+    networks:
+      - frontend
+      - backend
+    ports:
+      - 80:80
+    restart: always
+    working_dir: /usr/src/app/secret_santa
+    volumes:
+      - .:/usr/src/app
+    # TODO wait for database: to be up and running
+    command: python manage.py runserver 0.0.0.0:80
+    environment:
+      # /!\ Keep consistent with the database service below.
+      POSTGRES_USER: santa
+      POSTGRES_PASSWORD: tobechanged
+      POSTGRES_DB: secret-santa
+    # TODO add a healthcheck
+
+  database:
+    image: postgres:16.3-alpine3.20
+    restart: always
+    shm_size: 128mb
+    environment:
+      POSTGRES_USER: santa
+      POSTGRES_PASSWORD: tobechanged
+      POSTGRES_DB: secret-santa
+    networks:
+      - backend
+    # TODO add a healthcheck
+
+
+networks:
+  frontend:
+  backend:
