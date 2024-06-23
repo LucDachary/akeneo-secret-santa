@@ -15,6 +15,38 @@ Features include:
 * a blacklist, to exclude arbitrary participant associations;
 * a five draws history.
 
+# Implementation
+The core code of the exercise is located in `secret_santa/secret_santa/lib.py`. It's designed
+to run in three steps that are run sequentially.
+(The three steps are currently run in `ProcessForm.is_valid()`.)
+
+## 1/3 Parse & Clean
+The first step is to parse and clean the inputs (blank lines, trailing whitespaces) from the
+HTML form, and then model the data using a custom `lib.Participant` class.
+This produces a __graph__ of all the participants and the beneficiaries they _could_ be
+giving a gift to.
+
+```mermaid
+---
+title: Participants Graph Class Diagram
+---
+classDiagram
+    Participant "1" o-- "*" Participant
+    class Participant{
+        +String name
+        +Participant[] options
+    }
+```
+
+## 2/3 Secure Single Beneficiary Participants
+Then, due to either the size of the participants list or the number of exclusions in the blacklist,
+some participants can only give a gift to __a single beneficiary__.
+We “secure” these participants by removing their single beneficiary from all other participant
+options.
+
+## 3/3 Run a Backtrack algorithm
+Finally we run a _backtracking algorithm_ to find a suitable path through all the participants.
+
 # Development Considerations
 For simplicity the Django project does not contain any app.
 

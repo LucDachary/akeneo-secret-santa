@@ -37,7 +37,7 @@ class ProcessForm(forms.Form):
 
                 if (left := left.strip()) and (right := right.strip()):
                     exclusions.append((left, right))
-                # TODO handle malformed input
+                # TODO else: handle malformed input
 
         # 1/3 prepping datasets…
         participants = lib.parse_data(names, exclusions)
@@ -58,7 +58,7 @@ class ProcessForm(forms.Form):
                 pass
 
         else:
-            self.add_error("participants", "Hu-oh… I failed to find a satisfying solution for you "
+            self.add_error("participants", "Hu-oh… I failed to find a satisfying solution for your "
                            "dataset and contraints.")
 
         participants = lib.parse_data(names, exclusions)

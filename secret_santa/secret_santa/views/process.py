@@ -11,6 +11,5 @@ class ProcessView(FormView):
     success_url = "/"
 
     def form_valid(self, form):
-        # OK
-        # TODO write a message to the end user
+        # TODO leverage the "messages" Django framework to pass a confirmation to the user.
         return super().form_valid(form)
