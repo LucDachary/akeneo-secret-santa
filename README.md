@@ -19,9 +19,10 @@ Features include:
 For simplicity the Django project does not contain any app.
 
 The project uses the [Django REST framework](https://www.django-rest-framework.org) (DRF) toolkit on
-top of Django.
+top of Django, and a __PostGreSQL__ database.
 
-## Class Diagram
+The database schema is very simple. It's designed to store __valid draws__ only. Below is this
+related class diagram.
 ```mermaid
 ---
 title: Secret Santa Class Diagram
@@ -32,6 +33,7 @@ classDiagram
     Draw: +DateTime drawn_on
 
     class Pair
+    Pair: +int id
     Pair: +CharField donor
     Pair: +CharField beneficiary
 
@@ -39,13 +41,19 @@ classDiagram
 ```
 
 The REST API only offers __reading__ endpoints, to list draws and pairs.
-DRF offers a web interface to browse the APIs: http://localhost/api/.
+(DRF offers a web interface to browse the APIs: http://localhost/api/.)
+The data will be written from Django after the submission of a valid `/process` form payload.
 
+Besides the REST API, two other views are available: the dashboard and the processing view
+(with the HTML form).
 
-| Method | Endpoint | Details                          |
-|--------|----------|----------------------------------|
-| GET    | `/api/draw`  | List draws and their attributes. |
-| GET    | `/api/pair`  | List pairs and their attributes. |
+| Method | Endpoint    | Details                                          |
+|--------|-------------|--------------------------------------------------|
+| GET    | `/api/draw` | List draws and their attributes.                 |
+| GET    | `/api/pair` | List pairs and their attributes.                 |
+| GET    | `/`         | Dashboard. List draws history.                   |
+| GET    | `/process`  | Show the input form.                             |
+| POST   | `/process`  | Process the inputs to build a Secret Santa draw. |
 
 # Build & Run
 The project can be deployed locally using __Docker__ and __Docker-Compose__.
@@ -53,18 +61,31 @@ The project can be deployed locally using __Docker__ and __Docker-Compose__.
 For now the project is run on Django's web development server. This is not suitable for production
 environments.
 
-A `Makefile` regroups the most useful `docker-compose` commands.
+A `Makefile` regroups the most useful `docker-compose` commands. Here is the basic commands
+sequence:
 ```sh
-make build up
+make build
+make up
+# browse http://localhost, http://localhost/api, http://localhost/process
+make clean
 ```
 
-# Clean
-```sh
-docker-compose down -v --remove-orphans
-```
+Two fixtures files are provided to populate the database with realistic data: `draw.yaml` and
+`pair.yaml`. They are already loaded by the `make up` target.
+
+The form on http://localhost/process is initialised with demonstration data for simplicity.
+In its current state this form shows an error message when a satisfying draw cannot be made,
+and it redirects to the dashboard when a Secret Santa list can be made.
+
+# What's missing?
+1. A connection from `ProcessForm.is_valid()` to `ProcessView`, to __save data in the database__.
+2. Automated library unit tests.
+3. A basic general HTML template (doctype, head, header, stylesheet, footer).
+4. A dynamic frontend application implemented with Vue.js.
 
 # How to improve?
 * Add a production-ready web server (e.g.: Nginx).
-* Add a "do your best" feature to reach a result even when no convenient draw can be found. The program would gradually drop constraints until a result is produced.
+* Add a "do your best" feature to reach a result even when no convenient draw can be found. The program would gradually drop constraints until a valid result is made possible.
 * Manage user authentication.
-* Write a production configuration file (e.g.: `settings-production.py`).
+* Write a blackbox automated test scenario using Selenium.
+* Store the raw inputs alongside the draws (for replay, debugging, statistics, etc.).
