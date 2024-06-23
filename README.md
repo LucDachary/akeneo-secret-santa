@@ -41,10 +41,10 @@ classDiagram
 ## 2/3 Secure Single Beneficiary Participants
 Then, due to either the size of the participants list or the number of exclusions in the blacklist,
 some participants can only give a gift to __a single beneficiary__.
-We “secure” these participants by removing their single beneficiary from all other participant
+We “secure” these participants by removing their single beneficiary from all other participants'
 options.
 
-## 3/3 Run a Backtrack algorithm
+## 3/3 Run a Backtrack Algorithm
 Finally we run a _backtracking algorithm_ to find a suitable path through all the participants.
 
 # Development Considerations
@@ -114,8 +114,8 @@ No data are saved into the database.
 
 # What's missing?
 1. A connection from `ProcessForm.is_valid()` to `ProcessView.form_valid()` to pass the processed draw and __save it into the database__.
-2. Automated library unit tests.
-3. A basic global HTML template (doctype, head, header, stylesheet, footer).
+2. Automated `lib.py` unit tests.
+3. A basic global HTML template (doctype, head, stylesheet, header, footer).
 4. A dynamic frontend application implemented with Vue.js.
 
 # How to improve?
