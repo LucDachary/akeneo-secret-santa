@@ -21,7 +21,7 @@ For simplicity the Django project does not contain any app.
 The project uses the [Django REST framework](https://www.django-rest-framework.org) (DRF) toolkit on
 top of Django, and a __PostGreSQL__ database.
 
-The database schema is very simple. It's designed to store __valid draws__ only. Below is this
+The database schema is very simple. It's designed to store __valid draws__ only. Below is the
 related class diagram.
 ```mermaid
 ---
@@ -47,22 +47,24 @@ The data will be written from Django after the submission of a valid `/process` 
 Besides the REST API, two other views are available: the dashboard and the processing view
 (with the HTML form).
 
-| Method | Endpoint    | Details                                          |
-|--------|-------------|--------------------------------------------------|
-| GET    | `/api/draw` | List draws and their attributes.                 |
-| GET    | `/api/pair` | List pairs and their attributes.                 |
-| GET    | `/`         | Dashboard. List draws history.                   |
-| GET    | `/process`  | Show the input form.                             |
-| POST   | `/process`  | Process the inputs to build a Secret Santa draw. |
+| Method | Endpoint      | Details                                          |
+|--------|---------------|--------------------------------------------------|
+| GET    | `/api/draw`   | List draws and their attributes.                 |
+| GET    | `/api/draw/X` | Get a single draw attributes.                    |
+| GET    | `/api/pair`   | List pairs and their attributes.                 |
+| GET    | `/api/pair/X` | Get a single pair attributes.                    |
+| GET    | `/`           | Dashboard. List draws history.                   |
+| GET    | `/process`    | Show the input form.                             |
+| POST   | `/process`    | Process the inputs to build a Secret Santa draw. |
 
 # Build & Run
-The project can be deployed locally using __Docker__ and __Docker-Compose__.
+The project can be deployed locally using __Docker__ and __Docker-Compose__. The project is built
+on top of a Python 3.12.4 container (based on Linux Debian).
 
 For now the project is run on Django's web development server. This is not suitable for production
 environments.
 
-A `Makefile` regroups the most useful `docker-compose` commands. Here is the basic commands
-sequence:
+A `Makefile` regroups the most useful `docker-compose` commands. Here is the basic sequence:
 ```sh
 make build
 make up
@@ -76,11 +78,12 @@ Two fixtures files are provided to populate the database with realistic data: `d
 The form on http://localhost/process is initialised with demonstration data for simplicity.
 In its current state this form shows an error message when a satisfying draw cannot be made,
 and it redirects to the dashboard when a Secret Santa list can be made.
+No data are saved into the database.
 
 # What's missing?
-1. A connection from `ProcessForm.is_valid()` to `ProcessView`, to __save data in the database__.
+1. A connection from `ProcessForm.is_valid()` to `ProcessView.form_valid()` to pass the processed draw and __save it into the database__.
 2. Automated library unit tests.
-3. A basic general HTML template (doctype, head, header, stylesheet, footer).
+3. A basic global HTML template (doctype, head, header, stylesheet, footer).
 4. A dynamic frontend application implemented with Vue.js.
 
 # How to improve?
@@ -89,3 +92,4 @@ and it redirects to the dashboard when a Secret Santa list can be made.
 * Manage user authentication.
 * Write a blackbox automated test scenario using Selenium.
 * Store the raw inputs alongside the draws (for replay, debugging, statistics, etc.).
+* Improve `/api/draw` and `/api/draw/X` REST serializers so they include the participants pairs.
